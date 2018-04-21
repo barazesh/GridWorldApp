@@ -19,7 +19,7 @@ namespace WindowsFormsApp1
             {
                 States[i] = new State();
                 //right-left moves
-                if (i % Dim2 == 0)
+                if (i % Dim2 == 0)//left edge
                 {
                     States[i].Left.NextState = i;
                     States[i].Left.Reward = -1;
@@ -28,7 +28,7 @@ namespace WindowsFormsApp1
                 }
                 else
                 {
-                    if (i % Dim2 == Dim2 - 1)
+                    if (i % Dim2 == Dim2 - 1)//right edge
                     {
                         States[i].Left.NextState = i - 1;
                         States[i].Left.Reward = 0;
@@ -46,7 +46,7 @@ namespace WindowsFormsApp1
 
 
                 //up-down moves
-                if (i / Dim2 == 0)
+                if (i / Dim2 == 0)//lower edge
                 {
                     States[i].Down.NextState = i;
                     States[i].Down.Reward = -1;
@@ -55,7 +55,7 @@ namespace WindowsFormsApp1
                 }
                 else
                 {
-                    if (i / Dim2 == Dim1 - 1)
+                    if (i / Dim2 == Dim1 - 1)//upper edge
                     {
                         States[i].Down.NextState = i - Dim2;
                         States[i].Down.Reward = 0;
