@@ -9,7 +9,12 @@ namespace WindowsFormsApp1
     class Action
     {
         public int NextState { get; set; }
-        public double Reward { get; set; }
+        public int Reward { get; set; }
+
+        public Action()
+        {
+            Reward = 0;
+        }
 
     }
 }

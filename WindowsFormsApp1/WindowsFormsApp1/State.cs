@@ -16,10 +16,10 @@ namespace WindowsFormsApp1
             set { _Value = value; }
         }
 
-        Action Up = new Action();
-        Action Down = new Action();
-        Action Right = new Action();
-        Action Left = new Action();
+        public Action Up = new Action();
+        public Action Down = new Action();
+        public Action Right = new Action();
+        public Action Left = new Action();
 
         public State()
         {
