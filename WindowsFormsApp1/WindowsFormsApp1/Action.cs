@@ -10,5 +10,6 @@ namespace WindowsFormsApp1
     {
         public int NextState { get; set; }
         public double Reward { get; set; }
+
     }
 }

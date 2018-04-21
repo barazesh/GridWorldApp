@@ -21,7 +21,10 @@ namespace WindowsFormsApp1
         Action Right = new Action();
         Action Left = new Action();
 
-
+        public State()
+        {
+            _Value = 0;
+        }
 
     }
 }
