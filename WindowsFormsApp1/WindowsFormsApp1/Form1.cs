@@ -19,9 +19,14 @@ namespace WindowsFormsApp1
 
         private void btnstart_Click(object sender, EventArgs e)
         {
-            string[] actionset = new string[4] { "up", "down", "left", "right" };
+            Grid mygrid = new Grid(5, 5);
+            mygrid.Initiate();
+            mygrid.ComputeStateValues(0.9f, 1f);
+            textBox1.Text = Convert.ToString(mygrid.States[1].Value);
 
-            
+
+
+
 
         }
     }

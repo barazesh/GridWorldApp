@@ -17,6 +17,7 @@ namespace WindowsFormsApp1
             Array.Resize(ref States, Dim1 * Dim2);
             for (int i = 0; i < States.Length; i++)
             {
+                States[i] = new State();
                 //right-left moves
                 if (i % Dim2 == 0)
                 {
@@ -95,6 +96,32 @@ namespace WindowsFormsApp1
                     States[i].Left.Reward = 5;
                 }
             }
+        }
+
+        public void ComputeStateValues(float gamma, float eps)
+        {
+            double newvalue = 0;
+            double variance = double.MaxValue;
+            while (variance > eps)
+            {
+                foreach (var item in States)
+                {
+
+                    newvalue = ((item.Up.Reward + gamma * States[item.Up.NextState].Value) +
+                        (item.Down.Reward + gamma * States[item.Down.NextState].Value) +
+                        (item.Right.Reward + gamma * States[item.Right.NextState].Value) +
+                        (item.Left.Reward + gamma * States[item.Left.NextState].Value)) / 4;
+                    if (Math.Abs(newvalue - item.Value) > variance)
+                    {
+                        variance = Math.Abs(newvalue - item.Value);
+                    }
+                    item.Value = newvalue;
+                }
+
+            }
+
+
+
         }
 
         public Grid(int d1, int d2)
