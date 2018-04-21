@@ -26,22 +26,20 @@ namespace WindowsFormsApp1
                     States[i].Right.NextState = i + 1;
                     States[i].Right.Reward = 0;
                 }
+                else if (i % Dim2 == Dim2 - 1)//right edge
+                {
+                    States[i].Left.NextState = i - 1;
+                    States[i].Left.Reward = 0;
+                    States[i].Right.NextState = i;
+                    States[i].Right.Reward = -1;
+                }
                 else
                 {
-                    if (i % Dim2 == Dim2 - 1)//right edge
-                    {
-                        States[i].Left.NextState = i - 1;
-                        States[i].Left.Reward = 0;
-                        States[i].Right.NextState = i;
-                        States[i].Right.Reward = -1;
-                    }
-                    else
-                    {
-                        States[i].Left.NextState = i - 1;
-                        States[i].Left.Reward = 0;
-                        States[i].Right.NextState = i + 1;
-                        States[i].Right.Reward = 0;
-                    }
+                    States[i].Left.NextState = i - 1;
+                    States[i].Left.Reward = 0;
+                    States[i].Right.NextState = i + 1;
+                    States[i].Right.Reward = 0;
+
                 }
 
 
@@ -53,23 +51,22 @@ namespace WindowsFormsApp1
                     States[i].Up.NextState = i + Dim2;
                     States[i].Up.Reward = 0;
                 }
+                else if (i / Dim2 == Dim1 - 1)//upper edge
+                {
+                    States[i].Down.NextState = i - Dim2;
+                    States[i].Down.Reward = 0;
+                    States[i].Up.NextState = i;
+                    States[i].Up.Reward = -1;
+                }
                 else
                 {
-                    if (i / Dim2 == Dim1 - 1)//upper edge
-                    {
-                        States[i].Down.NextState = i - Dim2;
-                        States[i].Down.Reward = 0;
-                        States[i].Up.NextState = i;
-                        States[i].Up.Reward = -1;
-                    }
-                    else
-                    {
-                        States[i].Left.NextState = i - Dim2;
-                        States[i].Left.Reward = 0;
-                        States[i].Right.NextState = i + Dim2;
-                        States[i].Right.Reward = 0;
-                    }
+                    States[i].Down.NextState = i - Dim2;
+                    States[i].Down.Reward = 0;
+                    States[i].Up.NextState = i + Dim2;
+                    States[i].Up.Reward = 0;
+
                 }
+            
 
 
                 //special cases
@@ -101,12 +98,12 @@ namespace WindowsFormsApp1
         public void ComputeStateValues(float gamma, float eps)
         {
             double newvalue = 0;
-            double variance = double.MaxValue;
+            double variance = 10;
             while (variance > eps)
             {
                 foreach (var item in States)
                 {
-
+                    variance = 0;
                     newvalue = ((item.Up.Reward + gamma * States[item.Up.NextState].Value) +
                         (item.Down.Reward + gamma * States[item.Down.NextState].Value) +
                         (item.Right.Reward + gamma * States[item.Right.NextState].Value) +
@@ -122,6 +119,28 @@ namespace WindowsFormsApp1
 
 
 
+        }
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            for (int i = Dim1-1; i > 0; i--)
+            {
+                for (int j = 0; j < Dim2; j++)
+                {
+                    int index = i * Dim2 + j;
+
+                    if (j == Dim2-1)
+                    {
+                        sb.AppendLine(States[index].Value.ToString("F2"));
+                    }
+                    else
+                    {
+                        sb.Append(States[index].Value.ToString("F2") + ",   ");
+
+                    }
+                }
+            }
+            return sb.ToString();
         }
 
         public Grid(int d1, int d2)

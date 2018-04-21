@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.btnstart = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtResult = new System.Windows.Forms.TextBox();
+            this.txtTime = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnstart
             // 
-            this.btnstart.Location = new System.Drawing.Point(84, 58);
+            this.btnstart.Location = new System.Drawing.Point(12, 12);
             this.btnstart.Name = "btnstart";
             this.btnstart.Size = new System.Drawing.Size(75, 23);
             this.btnstart.TabIndex = 0;
@@ -42,19 +43,31 @@
             this.btnstart.UseVisualStyleBackColor = true;
             this.btnstart.Click += new System.EventHandler(this.btnstart_Click);
             // 
-            // textBox1
+            // txtResult
             // 
-            this.textBox1.Location = new System.Drawing.Point(279, 94);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 1;
+            this.txtResult.Location = new System.Drawing.Point(12, 41);
+            this.txtResult.Multiline = true;
+            this.txtResult.Name = "txtResult";
+            this.txtResult.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtResult.Size = new System.Drawing.Size(216, 142);
+            this.txtResult.TabIndex = 1;
+            this.txtResult.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txtResult.DoubleClick += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // txtTime
+            // 
+            this.txtTime.Location = new System.Drawing.Point(12, 189);
+            this.txtTime.Name = "txtTime";
+            this.txtTime.Size = new System.Drawing.Size(216, 20);
+            this.txtTime.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBox1);
+            this.ClientSize = new System.Drawing.Size(248, 214);
+            this.Controls.Add(this.txtTime);
+            this.Controls.Add(this.txtResult);
             this.Controls.Add(this.btnstart);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -66,7 +79,8 @@
         #endregion
 
         private System.Windows.Forms.Button btnstart;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtResult;
+        private System.Windows.Forms.TextBox txtTime;
     }
 }
 
