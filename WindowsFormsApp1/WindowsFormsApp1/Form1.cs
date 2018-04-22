@@ -22,9 +22,9 @@ namespace WindowsFormsApp1
         {
             Stopwatch timer = new Stopwatch();
             timer.Start();
-            Grid mygrid = new Grid(5, 5);
+            Grid mygrid = new Grid(int.Parse(nud1.Value.ToString()), int.Parse(nud2.Value.ToString()));
             mygrid.Initiate();
-            mygrid.ComputeStateValues(0.9f, 0.0001f);
+            mygrid.ComputeStateValues(0.9f, float.Parse(txtAccuracy.Text),listBox1.Text);
             timer.Stop();
             var ts = timer.ElapsedMilliseconds;
             txtResult.Text = mygrid.ToString();
@@ -32,7 +32,7 @@ namespace WindowsFormsApp1
 
             
 
-
+            
 
 
 
@@ -40,7 +40,7 @@ namespace WindowsFormsApp1
 
         private void gridDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

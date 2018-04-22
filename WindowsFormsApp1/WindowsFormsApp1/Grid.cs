@@ -66,16 +66,17 @@ namespace WindowsFormsApp1
                     States[i].Up.Reward = 0;
 
                 }
-            
+
 
 
                 //special cases
                 if (i == 21)
                 {
+                    States[i].Up.NextState = 1;
                     States[i].Down.NextState = 1;
                     States[i].Right.NextState = 1;
                     States[i].Left.NextState = 1;
-
+                    States[i].Up.Reward = 10;
                     States[i].Down.Reward = 10;
                     States[i].Right.Reward = 10;
                     States[i].Left.Reward = 10;
@@ -84,10 +85,11 @@ namespace WindowsFormsApp1
 
                 if (i == 23)
                 {
+                    States[i].Up.NextState = 13;
                     States[i].Down.NextState = 13;
                     States[i].Right.NextState = 13;
                     States[i].Left.NextState = 13;
-
+                    States[i].Up.Reward = 5;
                     States[i].Down.Reward = 5;
                     States[i].Right.Reward = 5;
                     States[i].Left.Reward = 5;
@@ -95,41 +97,65 @@ namespace WindowsFormsApp1
             }
         }
 
-        public void ComputeStateValues(float gamma, float eps)
+        public void ComputeStateValues(float gamma, float eps, string mode)
         {
-            double newvalue = 0;
+            double[] newvalue = new double[Dim1 * Dim2];
             double variance = 10;
             while (variance > eps)
             {
-                foreach (var item in States)
+                for (int i = 0; i < States.Length; i++)
                 {
-                    variance = 0;
-                    newvalue = ((item.Up.Reward + gamma * States[item.Up.NextState].Value) +
-                        (item.Down.Reward + gamma * States[item.Down.NextState].Value) +
-                        (item.Right.Reward + gamma * States[item.Right.NextState].Value) +
-                        (item.Left.Reward + gamma * States[item.Left.NextState].Value)) / 4;
-                    if (Math.Abs(newvalue - item.Value) > variance)
+                    switch (mode)
                     {
-                        variance = Math.Abs(newvalue - item.Value);
+                        case ("currentpolicy"):
+                            variance = 0;
+                            newvalue[i] = ((States[i].Up.Reward + gamma * States[States[i].Up.NextState].Value) +
+                                (States[i].Down.Reward + gamma * States[States[i].Down.NextState].Value) +
+                                (States[i].Right.Reward + gamma * States[States[i].Right.NextState].Value) +
+                                (States[i].Left.Reward + gamma * States[States[i].Left.NextState].Value)) / 4;
+                            if (Math.Abs(newvalue[i] - States[i].Value) > variance)
+                            {
+                                variance = Math.Abs(newvalue[i] - States[i].Value);
+                            }
+
+                            for (int j = 0; j < States.Length; j++)
+                            {
+                                States[j].Value = newvalue[j];
+                            }
+                            break;
+                        case ("optimal"):
+                            variance = 0;
+                            double newval= Math.Max((States[i].Up.Reward + gamma * States[States[i].Up.NextState].Value),
+                                Math.Max((States[i].Down.Reward + gamma * States[States[i].Down.NextState].Value),
+                                Math.Max((States[i].Right.Reward + gamma * States[States[i].Right.NextState].Value),
+                                (States[i].Left.Reward + gamma * States[States[i].Left.NextState].Value))));
+                            if (Math.Abs(newval - States[i].Value) > variance)
+                            {
+                                variance = Math.Abs(newval - States[i].Value);
+                            }
+                            States[i].Value = newval;
+                            
+                            break;
+
+                        default:
+                            break;
                     }
-                    item.Value = newvalue;
                 }
 
+
+
             }
-
-
-
         }
         public override string ToString()
         {
             var sb = new StringBuilder();
-            for (int i = Dim1-1; i > 0; i--)
+            for (int i = Dim1 - 1; i >= 0; i--)
             {
                 for (int j = 0; j < Dim2; j++)
                 {
                     int index = i * Dim2 + j;
 
-                    if (j == Dim2-1)
+                    if (j == Dim2 - 1)
                     {
                         sb.AppendLine(States[index].Value.ToString("F2"));
                     }
