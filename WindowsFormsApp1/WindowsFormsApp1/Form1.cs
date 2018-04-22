@@ -24,11 +24,11 @@ namespace WindowsFormsApp1
             timer.Start();
             Grid mygrid = new Grid(int.Parse(nud1.Value.ToString()), int.Parse(nud2.Value.ToString()));
             mygrid.Initiate();
-            mygrid.ComputeStateValues(0.9f, float.Parse(txtAccuracy.Text),listBox1.Text);
+            int itr= mygrid.ComputeStateValues(0.9f, float.Parse(txtAccuracy.Text),listBox1.Text);
             timer.Stop();
             var ts = timer.ElapsedMilliseconds;
             txtResult.Text = mygrid.ToString();
-            txtTime.Text = ts.ToString();
+            txtTime.Text = ts.ToString()+","+itr.ToString();
 
             
 

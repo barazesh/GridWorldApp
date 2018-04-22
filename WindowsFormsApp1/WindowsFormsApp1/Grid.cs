@@ -97,34 +97,30 @@ namespace WindowsFormsApp1
             }
         }
 
-        public void ComputeStateValues(float gamma, float eps, string mode)
+        public int ComputeStateValues(float gamma, float eps, string mode)
         {
-            double[] newvalue = new double[Dim1 * Dim2];
+            int itr = 0;
             double variance = 10;
             while (variance > eps)
             {
+                variance = 0;
                 for (int i = 0; i < States.Length; i++)
                 {
                     switch (mode)
                     {
                         case ("currentpolicy"):
-                            variance = 0;
-                            newvalue[i] = ((States[i].Up.Reward + gamma * States[States[i].Up.NextState].Value) +
+                            
+                            double newvalue = ((States[i].Up.Reward + gamma * States[States[i].Up.NextState].Value) +
                                 (States[i].Down.Reward + gamma * States[States[i].Down.NextState].Value) +
                                 (States[i].Right.Reward + gamma * States[States[i].Right.NextState].Value) +
                                 (States[i].Left.Reward + gamma * States[States[i].Left.NextState].Value)) / 4;
-                            if (Math.Abs(newvalue[i] - States[i].Value) > variance)
+                            if (Math.Abs(newvalue - States[i].Value) > variance)
                             {
-                                variance = Math.Abs(newvalue[i] - States[i].Value);
+                                variance = Math.Abs(newvalue - States[i].Value);
                             }
-
-                            for (int j = 0; j < States.Length; j++)
-                            {
-                                States[j].Value = newvalue[j];
-                            }
+                            States[i].Value = newvalue;
                             break;
                         case ("optimal"):
-                            variance = 0;
                             double newval= Math.Max((States[i].Up.Reward + gamma * States[States[i].Up.NextState].Value),
                                 Math.Max((States[i].Down.Reward + gamma * States[States[i].Down.NextState].Value),
                                 Math.Max((States[i].Right.Reward + gamma * States[States[i].Right.NextState].Value),
@@ -141,10 +137,10 @@ namespace WindowsFormsApp1
                             break;
                     }
                 }
-
-
-
+                itr++;
+                
             }
+            return itr;
         }
         public override string ToString()
         {
